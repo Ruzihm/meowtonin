@@ -29,6 +29,11 @@ fn link() {
 				"cargo:rustc-link-search=native={}",
 				link_dir.join("linux").display()
 			);
+
+			#[cfg(feature="opendream")]
+			println!("cargo:rustc-link-lib=dylib=byondcore.so");
+
+			#[cfg(not(feature="opendream"))]
 			println!("cargo:rustc-link-lib=dylib=byond");
 		}
 		_ => panic!("Unsupported platform"),

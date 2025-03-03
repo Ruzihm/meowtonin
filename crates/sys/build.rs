@@ -31,7 +31,7 @@ fn link() {
 			);
 
 			#[cfg(feature="opendream")]
-			println!("cargo:rustc-link-lib=dylib=byondcore.so");
+			println!("cargo:rustc-link-lib=dylib=byondcore");
 
 			#[cfg(not(feature="opendream"))]
 			println!("cargo:rustc-link-lib=dylib=byond");

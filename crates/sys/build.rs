@@ -20,7 +20,7 @@ fn link() {
 			println!("cargo:rustc-link-lib=dylib=byondapi");
 
 			#[cfg(feature="opendream")]
-			println!("cargo:rustc-link-lib=dylib=od.byondapi");
+			println!("cargo:rustc-link-lib=dylib=opendreamcore");
 		}
 		("linux", _) => {
 			println!(
@@ -32,7 +32,7 @@ fn link() {
 			println!("cargo:rustc-link-lib=dylib=byond");
 
 			#[cfg(feature="opendream")]
-			println!("cargo:rustc-link-lib=dylib=opendream");
+			println!("cargo:rustc-link-lib=dylib=opendreamcore");
 		}
 		_ => panic!("Unsupported platform"),
 	}

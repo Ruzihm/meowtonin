@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: 0BSD
 use bindgen::{callbacks::ParseCallbacks, Abi};
 use std::path::PathBuf;
-use std::fs;
 
 fn link() {
 	let link_dir = std::env::var("CARGO_MANIFEST_DIR")
@@ -17,12 +16,11 @@ fn link() {
 				"cargo:rustc-link-search=native={}",
 				link_dir.join("windows").display()
 			);
-
-			#[cfg(feature="opendream")]
-			println!("cargo:rustc-link-lib=dylib=byondcore.dll");
-
 			#[cfg(not(feature="opendream"))]
 			println!("cargo:rustc-link-lib=dylib=byondapi");
+
+			#[cfg(feature="opendream")]
+			println!("cargo:rustc-link-lib=dylib=od.byondapi");
 		}
 		("linux", _) => {
 			println!(
@@ -30,11 +28,11 @@ fn link() {
 				link_dir.join("linux").display()
 			);
 
-			#[cfg(feature="opendream")]
-			println!("cargo:rustc-link-lib=dylib=byondcore");
-
 			#[cfg(not(feature="opendream"))]
 			println!("cargo:rustc-link-lib=dylib=byond");
+
+			#[cfg(feature="opendream")]
+			println!("cargo:rustc-link-lib=dylib=opendream");
 		}
 		_ => panic!("Unsupported platform"),
 	}
@@ -57,9 +55,9 @@ fn generate_bindings() {
 		.parse_callbacks(Box::new(DoxygenCallbacks))
 		.generate()
 		.expect("failed to generate byondapi bindings");
-
-    let mut bindings_str = bindings.to_string();
-    fs::write(out_dir.join("bindings.rs"), bindings_str).expect("Couldn't write bindings!");
+	bindings
+		.write_to_file(out_dir.join("bindings.rs"))
+		.expect("Couldn't write bindings!");
 }
 
 fn main() {

@@ -19,7 +19,7 @@ doxygen-rs = "0.4"
 
 [features]
 default = ["bytemuck"]
-opendream = []
+opendream = ["bytemuck"]
 
 [package.metadata.docs.rs]
 targets = ["i686-pc-windows-msvc", "i686-unknown-linux-gnu"]
